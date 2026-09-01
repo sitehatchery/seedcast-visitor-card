@@ -1,0 +1,687 @@
+/**
+ * Visitor Card, front end.
+ *
+ * Deliberately restrained. This lands at the bottom of somebody else's theme,
+ * on a page they designed, so it borrows the theme's font and inherits its
+ * text color rather than asserting a look of its own. The accent color is
+ * the one thing a church picks, and it is set per card as a custom property so
+ * two cards on one page could differ if anyone wanted that.
+ */
+
+.scvc-card,
+.scvc-card *,
+.scvc-card *::before,
+.scvc-card *::after {
+  box-sizing: border-box;
+}
+
+.scvc-card {
+  /*
+   * These fall through to the suite's own tokens, set by the theme chosen
+   * under Settings, Seedcast, Appearance. The hex values are only reached on a
+   * page where the shared stylesheet is not present. An accent picked in the
+   * card designer is written onto the element as an inline custom property and
+   * takes precedence over both.
+   */
+  --scvc-accent: var(--sc-color-accent, #c9975a);
+  --scvc-accent-dark: var(--sc-color-primary, #1f2937);
+  /* What reads on top of each of those. Set per card from the chosen colors,
+     because white on a pale accent is barely there. */
+  --scvc-on-accent: #fff;
+  --scvc-on-accent-dark: #fff;
+
+  /*
+   * The card's own edges follow the suite theme, which is a neutral gray.
+   * Field edges are mixed with the accent instead, so they belong to the card
+   * rather than looking like default browser inputs that happen to be sitting
+   * in it. Enough accent to relate to the color, not enough to compete with
+   * the button.
+   */
+  --scvc-border: var(--sc-color-border, rgba(0, 0, 0, .12));
+  --scvc-field-border: color-mix(in srgb, var(--scvc-accent) 45%, var(--scvc-border));
+  --scvc-muted: var(--sc-color-muted, rgba(0, 0, 0, .6));
+
+  margin: 2rem 0;
+  font-family: inherit;
+  color: inherit;
+}
+
+.scvc-card__heading {
+  margin: 0 0 .25rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.scvc-card__intro {
+  margin: 0 0 1rem;
+  color: var(--scvc-muted);
+}
+
+/* Card: the default, a bounded block that reads as a distinct invitation
+   rather than as more page content. */
+.scvc-card--card {
+  padding: 1rem;
+  border: 1px solid var(--scvc-border);
+  border-top: 3px solid var(--scvc-accent);
+  border-radius: var(--sc-radius, 8px);
+  background: var(--sc-color-bg-subtle, rgba(0, 0, 0, .015));
+}
+
+/* Inline: no chrome at all, for a theme that already frames its sections. */
+.scvc-card--inline {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* Contact form: a plain stacked form, for a church placing this on its own
+   contact page where a decorated card would look out of place. */
+.scvc-card--contact {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.scvc-card--contact .scvc-card__heading {
+  font-size: 1.4rem;
+}
+
+/*
+ * The form element itself carries nothing.
+ *
+ * Plenty of themes style a bare form with a background, a border, padding and
+ * a shadow, which puts a second box inside the card and eats the width the
+ * fields need. The card is already the box, so the form inside it is only a
+ * grouping element.
+ */
+.scvc-card form {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+
+
+/*
+ * The form's own breathing room, set after the reset above so a theme's form
+ * styling is cleared first.
+ *
+ * Only the fields, the consent line and the button live in here. The heading,
+ * the opening line and the service details sit outside it, so the horizontal
+ * padding insets the fields relative to those. That reads as deliberate when
+ * the form is a panel of its own and as a mistake when it is not, which is why
+ * it gets a faint edge to match.
+ */
+.scvc-card .sc-form {
+  padding: 1.25rem 1rem 1.25rem;
+  border: 1px solid var(--scvc-border);
+  border-radius: var(--sc-radius, 6px);
+  background: rgba(127, 127, 127, .04);
+}
+
+/* Except where the card is already a colored panel, where another one inside
+   it would be one box too many. */
+.scvc-card--bold .sc-form,
+.scvc-card--inline .sc-form,
+.scvc-card--contact .sc-form {
+  border: 0;
+  background: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Fields. Class names from the shared library are styled here too, so the card
+   looks like one thing rather than like a form with a heading above it. */
+.scvc-card .sc-form__row,
+.scvc-card .scvc-row {
+  margin-bottom: .6rem;
+}
+
+.scvc-card .sc-form__label {
+  display: block;
+  margin-bottom: .15rem;
+  font-weight: 500;
+  font-size: .95rem;
+}
+
+.scvc-card input[type="text"],
+.scvc-card input[type="email"],
+.scvc-card input[type="tel"],
+.scvc-card input[type="number"],
+.scvc-card textarea {
+  width: 100%;
+  max-width: 100%;
+  /* Tight on purpose. The card often sits in a sidebar, where generous field
+     padding is space the fields themselves need. */
+  padding: .25rem .45rem;
+  min-height: 2rem;
+  border: 1px solid var(--scvc-field-border);
+  border-radius: 5px;
+  background: #fff;
+  font: inherit;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+.scvc-card input:focus,
+.scvc-card textarea:focus {
+  outline: 2px solid var(--scvc-accent);
+  outline-offset: 1px;
+  border-color: var(--scvc-accent);
+}
+
+/* A number that will only ever be one or two digits does not need the full
+   width of the card. */
+.scvc-card input[type="number"] {
+  max-width: 7rem;
+}
+
+.scvc-card .sc-form__req {
+  color: #b32d2e;
+  margin-left: .15rem;
+}
+
+.scvc-card .sc-form__help {
+  margin: .2rem 0 0;
+  font-size: .85rem;
+  color: var(--scvc-muted);
+}
+
+.scvc-card__consent {
+  margin: 1rem 0 .75rem;
+  font-size: .82rem;
+  line-height: 1.45;
+  color: var(--scvc-muted);
+}
+
+.scvc-card__consent a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.scvc-card .sc-btn {
+  display: inline-block;
+  max-width: 100%;
+  padding: .65rem 1.4rem;
+  /* A long label in a narrow column has to wrap rather than run out of the
+     button. "Tell us you are coming" does not fit a sidebar on one line. */
+  white-space: normal;
+  overflow-wrap: break-word;
+  border: 0;
+  border-radius: 5px;
+  background: var(--scvc-accent);
+  color: var(--scvc-on-accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.scvc-card .sc-btn:hover,
+.scvc-card .sc-btn:focus {
+  filter: brightness(.92);
+}
+
+/* The confirmation that replaces the form. Given the same weight as the card
+   it replaced, because being told you are expected is the point of having
+   filled it in. */
+/* Somebody has just told their church they are coming. That deserves to look
+   like good news rather than like a system notice, so it takes the accent
+   rather than the grey a neutral message would get. */
+.scvc-card__confirmed {
+  margin: 0;
+  padding: 1.15rem 1.25rem;
+  border: 0;
+  border-left: 4px solid var(--scvc-accent);
+  border-radius: var(--sc-radius, 8px);
+  background: color-mix(in srgb, var(--scvc-accent) 12%, transparent);
+  color: inherit;
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* color-mix is recent. Older browsers get the plain theme values, which is the
+   same idea without the accent in it, rather than nothing at all. */
+@supports not (background: color-mix(in srgb, red 10%, transparent)) {
+  .scvc-card__confirmed {
+    background: rgba(0, 0, 0, .04);
+  }
+
+  .scvc-card {
+    --scvc-field-border: var(--scvc-border);
+  }
+
+  .scvc-card--bold input[type="text"],
+  .scvc-card--bold input[type="email"],
+  .scvc-card--bold input[type="tel"],
+  .scvc-card--bold input[type="number"],
+  .scvc-card--bold textarea {
+    border-color: rgba(0, 0, 0, .2);
+  }
+}
+
+/* A confirmation is the whole card once the form has gone, so it should not
+   sit inside the frame of a card that is no longer there. */
+.scvc-card--card:has(.scvc-card__confirmed),
+.scvc-card--classic:has(.scvc-card__confirmed),
+.scvc-card--bold:has(.scvc-card__confirmed) {
+  border-color: var(--scvc-border);
+}
+
+.scvc-card__suspended {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid var(--scvc-border);
+  background: rgba(0, 0, 0, .02);
+  color: var(--scvc-muted);
+}
+
+/* The honeypot. Off-screen rather than display:none, because some bots skip
+   hidden fields and fill the visible ones, which is exactly backwards from
+   what the trap needs. */
+.scvc-card .sc-form__hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.scvc-card .sc-screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.scvc-card .sc-form__notice:not(:empty) {
+  margin-bottom: .85rem;
+  padding: .6rem .8rem;
+  border-left: 3px solid var(--scvc-accent);
+  background: rgba(0, 0, 0, .03);
+}
+
+@media (prefers-color-scheme: dark) {
+  .scvc-card {
+    --scvc-border: rgba(255, 255, 255, .18);
+    --scvc-muted: rgba(255, 255, 255, .65);
+  }
+
+  .scvc-card--card {
+    background: rgba(255, 255, 255, .03);
+  }
+
+  .scvc-card input[type="text"],
+  .scvc-card input[type="email"],
+  .scvc-card input[type="tel"],
+  .scvc-card input[type="number"],
+  .scvc-card textarea {
+    background: rgba(255, 255, 255, .06);
+  }
+}
+
+/* ── Connection card templates ─────────────────
+   Modeled on the printed cards churches already hand out: a filled band across
+   the top with the heading in it, then the fields below. Somebody who has
+   filled one of those in on a Sunday recognizes this, which is the point. */
+
+.scvc-card--classic,
+.scvc-card--bold {
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--scvc-border);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.scvc-card__band {
+  padding: 1.1rem 1.5rem;
+  background: var(--scvc-accent);
+  text-align: center;
+}
+
+.scvc-card__band .scvc-card__heading {
+  margin: 0;
+  color: var(--scvc-on-accent);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.scvc-card--classic .scvc-card__body,
+.scvc-card--bold .scvc-card__body {
+  padding: 1rem;
+}
+
+/* Classic: ruled lines under each field, the way a printed card has a line to
+   write on. */
+.scvc-card--classic input[type="text"],
+.scvc-card--classic input[type="email"],
+.scvc-card--classic input[type="tel"],
+.scvc-card--classic input[type="number"] {
+  border: 0;
+  border-bottom: 1px solid var(--scvc-border);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  background: none;
+}
+
+.scvc-card--classic input[type="text"]:focus,
+.scvc-card--classic input[type="email"]:focus,
+.scvc-card--classic input[type="tel"]:focus,
+.scvc-card--classic input[type="number"]:focus {
+  outline: 0;
+  border-bottom-color: var(--scvc-accent);
+  border-bottom-width: 2px;
+}
+
+.scvc-card--classic .sc-form__label {
+  font-size: .9rem;
+  color: var(--scvc-muted);
+}
+
+/* Bold: the color is the card, not just its edge. The band across the top is
+   the darker second color and the fields are white boxes sitting on the
+   accent, which is how the printed connect cards are laid out. */
+.scvc-card--bold {
+  background: var(--scvc-accent);
+  border-color: transparent;
+}
+
+.scvc-card--bold .scvc-card__band {
+  padding: 1.4rem 1.5rem;
+  background: var(--scvc-accent-dark);
+}
+
+.scvc-card--bold .scvc-card__band .scvc-card__heading {
+  color: var(--scvc-on-accent-dark);
+}
+
+.scvc-card--bold .scvc-card__band .scvc-card__heading {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  line-height: 1.15;
+}
+
+/* Everything on the colored body is light, including the parts that inherit
+   the theme's text color by default. */
+.scvc-card--bold .scvc-card__body,
+.scvc-card--bold .scvc-card__intro,
+.scvc-card--bold .sc-form__label,
+.scvc-card--bold .scvc-card__consent,
+.scvc-card--bold .scvc-choice,
+.scvc-card--bold legend {
+  color: var(--scvc-on-accent);
+}
+
+/* Secondary text is the same color at reduced opacity rather than a lighter
+   shade, so it stays readable whether the text is white or near black. */
+.scvc-card--bold .scvc-card__intro,
+.scvc-card--bold .scvc-card__consent {
+  opacity: .85;
+}
+
+.scvc-card--bold .scvc-card__consent a {
+  color: var(--scvc-on-accent);
+}
+
+.scvc-card--bold .sc-form__label {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+.scvc-card--bold input[type="text"],
+.scvc-card--bold input[type="email"],
+.scvc-card--bold input[type="tel"],
+.scvc-card--bold input[type="number"],
+.scvc-card--bold textarea {
+  /* A visible edge, not just a fill. A white input on a background that turns
+     out to be white, whether from a theme, a stale stylesheet or a color
+     someone picked, is a field nobody can see. On this template the body is
+     already the accent, so the edge is a darkened version of it rather than a
+     mix that would vanish into the background. */
+  border: 1px solid color-mix(in srgb, var(--scvc-accent-dark) 30%, transparent);
+  background: #fff;
+  border-radius: 4px;
+  color: #1d2327;
+}
+
+.scvc-card--bold input:focus,
+.scvc-card--bold textarea:focus {
+  outline: 2px solid var(--scvc-accent-dark);
+  outline-offset: 2px;
+}
+
+/* The required marker is red by default, which disappears against a red or
+   maroon accent and reads as an error against any of them. */
+.scvc-card--bold .sc-form__req {
+  color: var(--scvc-on-accent);
+  opacity: .8;
+}
+
+.scvc-card--bold .scvc-choice input {
+  accent-color: var(--scvc-accent-dark);
+}
+
+/* The button cannot be the accent here, because the accent is the background
+   it would sit on. It takes the header color so the two ends of the card
+   match. */
+.scvc-card--bold .sc-btn {
+  width: 100%;
+  text-align: center;
+  background: var(--scvc-accent-dark);
+  color: var(--scvc-on-accent-dark);
+}
+
+.scvc-card--bold .sc-form__notice:not(:empty),
+.scvc-card--bold .scvc-card__suspended {
+  background: rgba(127, 127, 127, .18);
+  border-left-color: var(--scvc-on-accent);
+  color: var(--scvc-on-accent);
+}
+
+/*
+ * On this template the card body is already the accent, so tinting the
+ * confirmation with more accent only makes a darker patch on a colored panel,
+ * and dark text on it loses contrast. A light panel is the readable way round:
+ * it reads as a card sitting on the color rather than a stain in it.
+ */
+.scvc-card--bold .scvc-card__confirmed {
+  background: #fff;
+  border-left-color: var(--scvc-accent-dark);
+  color: #1d2327;
+}
+
+/* ── Choice groups ─────────────────────────────
+   Two columns where there is room, one where there is not, which is how the
+   printed cards lay these out. */
+.scvc-choices {
+  border: 0;
+  padding: 0;
+  margin: 0 0 .85rem;
+  min-width: 0;
+}
+
+.scvc-choices legend {
+  padding: 0;
+  margin-bottom: .35rem;
+}
+
+.scvc-choices__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: .3rem .9rem;
+}
+
+.scvc-choice {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .93rem;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.scvc-choice input {
+  margin: 0;
+  flex: 0 0 auto;
+  accent-color: var(--scvc-accent);
+}
+
+/* In a narrow sidebar the grid would still try for two columns and wrap the
+   labels badly, so it stays a single column there. */
+.scvc-card--sidebar .scvc-choices__list {
+  grid-template-columns: 1fr;
+}
+
+.scvc-card--sidebar {
+  margin: 1.25rem 0 0;
+}
+
+/* A sidebar column is often under 300px, where the standard padding leaves
+   very little room for the fields themselves. */
+.scvc-card--sidebar .scvc-card__body,
+.scvc-card--sidebar.scvc-card--card {
+  padding: .5rem;
+}
+
+.scvc-card--sidebar .scvc-card__band {
+  padding: .7rem .8rem;
+}
+
+.scvc-card--sidebar .scvc-card__band .scvc-card__heading {
+  font-size: 1.1rem;
+}
+
+.scvc-card--sidebar .sc-btn {
+  padding: .6rem .8rem;
+  font-size: .9rem;
+}
+
+/* The form panel's padding sits on top of the body's, which in a column this
+   narrow adds up to more than the fields can spare. */
+.scvc-card--sidebar .sc-form {
+  padding: .75rem .6rem;
+}
+
+/* Narrow enough that a number field at its usual width looks stranded. */
+.scvc-card--sidebar input[type="number"] {
+  max-width: 5.5rem;
+}
+
+/* ── Preview ───────────────────────────────────
+   The admin preview renders the card without a form, so the submit button is a
+   span. It has to look like the button it stands for. */
+.scvc-card__preview-btn {
+  display: inline-block;
+  cursor: default;
+  user-select: none;
+}
+
+.scvc-card__preview-form input,
+.scvc-card__preview-form textarea {
+  pointer-events: none;
+}
+
+/* ── When and where ────────────────────────────
+   Set apart from the form without becoming a second card. Somebody reading
+   this is deciding, not filling anything in, so it wants to be scannable
+   rather than dense. */
+.scvc-card__details {
+  margin: 0 0 1.1rem;
+  padding: .75rem .9rem;
+  border-left: 3px solid var(--scvc-accent);
+  background: rgba(127, 127, 127, .08);
+  border-radius: 0 var(--sc-radius, 6px) var(--sc-radius, 6px) 0;
+  font-size: .93rem;
+  line-height: 1.5;
+}
+
+.scvc-card__details-heading {
+  margin: 0 0 .3rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--scvc-muted);
+}
+
+.scvc-card__details p {
+  margin: 0 0 .2rem;
+}
+
+.scvc-card__details p:last-child {
+  margin-bottom: 0;
+}
+
+.scvc-card__day {
+  font-weight: 600;
+}
+
+/* Times sit after the day on one line where they fit, and wrap sensibly where
+   they do not, which is what a church with three services needs. */
+.scvc-card__time::before {
+  content: "\00b7";
+  margin: 0 .4rem;
+  opacity: .5;
+}
+
+.scvc-card__where a {
+  color: inherit;
+}
+
+.scvc-card__note {
+  margin-top: .35rem;
+  color: var(--scvc-muted);
+  font-size: .88rem;
+}
+
+/* On the bold template the body is already the accent, so a tinted panel with
+   an accent edge disappears into it. */
+.scvc-card--bold .scvc-card__details {
+  background: rgba(255, 255, 255, .16);
+  border-left-color: var(--scvc-on-accent);
+  color: var(--scvc-on-accent);
+}
+
+.scvc-card--bold .scvc-card__details-heading,
+.scvc-card--bold .scvc-card__note {
+  color: var(--scvc-on-accent);
+  opacity: .8;
+}
+
+/* After somebody has committed, the details are the useful part of the card,
+   so they stop being a footnote under it. */
+.scvc-card__confirmed + .scvc-card__details {
+  margin: .9rem 0 0;
+}
+
+/* Only ever rendered for somebody who can change the site, so it should look
+   like an aside to them rather than part of the card a visitor sees. */
+.scvc-card__tester {
+  margin: .9rem 0 0;
+  padding: .5rem .7rem;
+  border: 1px dashed var(--scvc-border);
+  border-radius: 4px;
+  background: rgba(127, 127, 127, .06);
+  font-size: .8rem;
+  line-height: 1.45;
+  color: var(--scvc-muted);
+}
+
+.scvc-card--bold .scvc-card__tester {
+  border-color: rgba(255, 255, 255, .4);
+  color: var(--scvc-on-accent);
+  opacity: .85;
+}

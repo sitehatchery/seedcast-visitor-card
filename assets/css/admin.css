@@ -1,0 +1,610 @@
+/**
+ * Visitor Card, admin.
+ */
+
+.scvc-stats {
+	display: flex;
+	gap: 2rem;
+	margin: 1rem 0 1.25rem;
+	padding: 1rem 1.25rem;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+}
+
+.scvc-stat {
+	display: flex;
+	flex-direction: column;
+}
+
+.scvc-stat__value {
+	font-size: 1.75rem;
+	font-weight: 600;
+	line-height: 1.1;
+	color: #1d2327;
+}
+
+.scvc-stat__label {
+	font-size: .8rem;
+	color: #646970;
+}
+
+.scvc-filters {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+}
+
+.scvc-table .scvc-message {
+	margin: .4rem 0 0;
+	color: #50575e;
+	font-style: italic;
+}
+
+.scvc-table .scvc-heard {
+	margin: .25rem 0 0;
+	font-size: .85rem;
+	color: #646970;
+}
+
+.scvc-badge {
+	display: inline-block;
+	margin-left: .4rem;
+	padding: .05rem .4rem;
+	border-radius: 3px;
+	background: #f0f0f1;
+	color: #50575e;
+	font-size: .75rem;
+	font-weight: 600;
+}
+
+.scvc-from {
+	font-size: .8rem;
+}
+
+.scvc-delete {
+	color: #b32d2e;
+	text-decoration: none;
+}
+
+.scvc-delete:hover,
+.scvc-delete:focus {
+	color: #b32d2e;
+	text-decoration: underline;
+}
+
+.scvc-tools {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	flex-wrap: wrap;
+	margin-top: 1.5rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid #dcdcde;
+}
+
+.scvc-purge {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+}
+
+.scvc-types {
+	margin: .5rem 0 0 .25rem;
+	list-style: none;
+}
+
+.scvc-types li {
+	margin: .25rem 0;
+}
+
+/* ── Shortcode generator ───────────────────────
+   Same shape as the Sermon Library generator, so somebody running both meets
+   one screen twice rather than two screens once. */
+.scvc-sc-wrap { max-width: 1100px; }
+
+.scvc-sc-intro {
+	color: #646970;
+	margin-bottom: 1.5rem;
+	font-size: 14px;
+}
+
+.scvc-sc-layout {
+	display: grid;
+	grid-template-columns: 1fr 320px;
+	gap: 1.5rem;
+	align-items: start;
+}
+
+@media (max-width: 900px) {
+	.scvc-sc-layout { grid-template-columns: 1fr; }
+}
+
+.scvc-sc-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 1.25rem 1.5rem;
+	margin-bottom: 1rem;
+}
+
+.scvc-sc-card__title {
+	font-size: 14px;
+	font-weight: 700;
+	color: #1d2327;
+	margin: 0 0 1rem;
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+}
+
+.scvc-sc-step {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	background: #2271b1;
+	color: #fff;
+	border-radius: 50%;
+	font-size: 12px;
+	font-weight: 800;
+	flex-shrink: 0;
+}
+
+.scvc-sc-options {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+}
+
+.scvc-sc-option {
+	display: flex;
+	align-items: center;
+	gap: .75rem;
+	padding: .75rem 1rem;
+	border: 2px solid #dcdcde;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: border-color .15s, background .15s;
+	background: #fff;
+}
+
+.scvc-sc-option:hover,
+.scvc-sc-option.is-selected {
+	border-color: #2271b1;
+	background: #f0f6fc;
+}
+
+.scvc-sc-radio {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.scvc-sc-option__icon {
+	font-size: 1.25rem;
+	width: 32px;
+	text-align: center;
+	flex-shrink: 0;
+}
+
+.scvc-sc-option__body {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.scvc-sc-option__body strong { font-size: 13px; color: #1d2327; }
+.scvc-sc-option__body span { font-size: 12px; color: #646970; }
+
+.scvc-sc-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+.scvc-sc-table th {
+	width: 160px;
+	text-align: left;
+	padding: .5rem .5rem .5rem 0;
+	font-weight: 600;
+	color: #1d2327;
+	vertical-align: middle;
+}
+
+.scvc-sc-table td { padding: .4rem 0; vertical-align: middle; }
+.scvc-sc-table input[type="text"] { width: 100%; }
+
+/* The preview is the real card, so it needs the front-end look without the
+   admin stylesheet fighting it. */
+.scvc-sc-preview {
+	padding: 1rem 1.25rem;
+	border: 1px dashed #dcdcde;
+	border-radius: 6px;
+	background: #fbfbfc;
+}
+
+.scvc-sc-preview .scvc-card { margin: 0; }
+
+/* Nothing in the preview should be clickable: it is a picture of the card,
+   not a card. */
+.scvc-sc-preview form { pointer-events: none; }
+
+.scvc-sc-output-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 1.25rem 1.5rem;
+	position: sticky;
+	top: 32px;
+}
+
+.scvc-sc-output-header h2 {
+	font-size: 14px;
+	font-weight: 700;
+	color: #1d2327;
+	margin: 0 0 .75rem;
+}
+
+.scvc-sc-output-code-wrap {
+	background: #1e1e1e;
+	border-radius: 4px;
+	padding: .85rem 1rem;
+	margin-bottom: .75rem;
+	overflow-x: auto;
+}
+
+.scvc-sc-code {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 13px;
+	color: #9cdcfe;
+	white-space: pre-wrap;
+	display: block;
+	word-break: break-all;
+}
+
+.scvc-sc-copy-btn {
+	width: 100%;
+	justify-content: center;
+}
+
+.scvc-sc-divider {
+	border: none;
+	border-top: 1px solid #f0f0f1;
+	margin: 1rem 0;
+}
+
+.scvc-sc-output-card h3 {
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .05em;
+	color: #646970;
+	margin: 0 0 .6rem;
+}
+
+.scvc-sc-instructions {
+	font-size: 12px;
+	color: #646970;
+	padding-left: 1.25rem;
+	margin: 0;
+	line-height: 1.8;
+}
+
+.scvc-sc-ref-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 12px;
+}
+
+.scvc-sc-ref-table th {
+	text-align: left;
+	padding: .3rem .4rem;
+	background: #f6f7f7;
+	border-bottom: 1px solid #dcdcde;
+	font-weight: 600;
+	color: #646970;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	font-size: 10px;
+}
+
+.scvc-sc-ref-table td {
+	padding: .4rem;
+	border-bottom: 1px solid #f0f0f1;
+	vertical-align: middle;
+	color: #646970;
+}
+
+.scvc-sc-ref-table tr:last-child td { border-bottom: none; }
+
+.scvc-sc-ref-table code {
+	background: #f0f0f1;
+	padding: .1rem .3rem;
+	border-radius: 3px;
+	font-size: 11px;
+	color: #2271b1;
+}
+
+.scvc-status {
+	text-decoration: none;
+	font-size: .85rem;
+}
+
+.scvc-status--done {
+	color: #00733f;
+	font-weight: 600;
+}
+
+.scvc-status--done::before {
+	content: "\2713";
+	margin-right: .25rem;
+}
+
+.scvc-d-fields {
+	margin: .75rem 0;
+	list-style: none;
+}
+
+.scvc-d-fields li {
+	margin: .35rem 0;
+	display: flex;
+	align-items: baseline;
+	gap: .5rem;
+	flex-wrap: wrap;
+}
+
+.scvc-d-fields .description {
+	font-size: 12px;
+	color: #646970;
+}
+
+/* A control that has no effect on the chosen template. Dimmed rather than
+   hidden: a row that vanishes as you try templates reads as a fault. */
+.scvc-d-dark-row.is-inactive {
+	opacity: .45;
+}
+
+.scvc-d-choices {
+	margin-top: 1.25rem;
+	padding-top: 1rem;
+	border-top: 1px solid #f0f0f1;
+}
+
+.scvc-d-choices__title {
+	font-size: 13px;
+	font-weight: 700;
+	color: #1d2327;
+	margin: 0 0 .5rem;
+}
+
+.scvc-field-label {
+	display: block;
+	margin-bottom: .25rem;
+	font-size: 12px;
+	font-weight: 600;
+	color: #646970;
+}
+
+.scvc-d-choices.is-inactive {
+	opacity: .45;
+}
+
+.scvc-d-switch {
+	margin: .5rem 0 1rem;
+	font-size: 13px;
+}
+
+/* ── Switches ──────────────────────────────────
+   A real checkbox underneath, moved out of sight rather than hidden with
+   display:none, so it still takes focus and reaches the keyboard and screen
+   readers. The track is what you see; the input is what works. */
+.scvc-switch {
+	display: inline-flex;
+	align-items: center;
+	gap: .55rem;
+	cursor: pointer;
+	line-height: 1.4;
+}
+
+.scvc-switch__input {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+}
+
+.scvc-switch__track {
+	position: relative;
+	flex: 0 0 auto;
+	width: 34px;
+	height: 20px;
+	border-radius: 10px;
+	background: #c3c4c7;
+	transition: background .15s ease;
+}
+
+.scvc-switch__track::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+	transition: transform .15s ease;
+}
+
+.scvc-switch__input:checked + .scvc-switch__track {
+	background: #2271b1;
+}
+
+.scvc-switch__input:checked + .scvc-switch__track::after {
+	transform: translateX(14px);
+}
+
+/* Focus has to be visible on the track, since the input it belongs to is out
+   of sight. Without this the whole control is invisible to a keyboard. */
+.scvc-switch__input:focus-visible + .scvc-switch__track {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.scvc-switch__input:disabled + .scvc-switch__track {
+	opacity: .5;
+	cursor: default;
+}
+
+.scvc-switch__label {
+	color: #1d2327;
+}
+
+/* ── Choice rows ───────────────────────────────── */
+.scvc-d-rows {
+	margin: .35rem 0 .75rem;
+	list-style: none;
+}
+
+.scvc-d-row {
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+	margin: 0 0 .4rem;
+}
+
+.scvc-d-choice-label {
+	flex: 1 1 auto;
+	max-width: 320px;
+}
+
+/* A row waiting to be typed into should not look like a choice that exists. */
+.scvc-d-row--new .scvc-switch__track {
+	opacity: .45;
+}
+
+.scvc-d-row--new .scvc-d-choice-label:focus,
+.scvc-d-row--new .scvc-d-choice-label:not(:placeholder-shown) {
+	opacity: 1;
+}
+
+/* A color that has no effect on the chosen template. */
+.scvc-sc-header-row.is-inactive {
+	opacity: .45;
+}
+
+/* Rows whose control has no effect on the current choice. Dimmed rather than
+   hidden: a row that vanishes reads as a fault, and the values in it are still
+   worth seeing. */
+.scvc-d-own-colors.is-inactive {
+	opacity: .45;
+}
+
+.scvc-choice-line {
+	margin: .4rem 0 0;
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: .35rem;
+	font-size: .85rem;
+}
+
+.scvc-choice-line__label {
+	color: #646970;
+}
+
+/* Choices read better as pills than as a comma list: at a glance you can see
+   how many somebody picked without reading the sentence. */
+.scvc-pill {
+	display: inline-block;
+	padding: .1rem .45rem;
+	border-radius: 3px;
+	background: #f0f6fc;
+	border: 1px solid #c5d9ed;
+	color: #1d2327;
+	font-size: .8rem;
+	line-height: 1.5;
+}
+
+.scvc-tabs {
+	margin: .5rem 0 1rem;
+}
+
+.scvc-archive {
+	text-decoration: none;
+	margin-right: .6rem;
+}
+
+.scvc-earlier {
+	margin-top: .5rem;
+}
+
+.scvc-earlier > summary {
+	cursor: pointer;
+	font-size: .82rem;
+	color: #2271b1;
+}
+
+.scvc-earlier__card {
+	margin: .5rem 0 0 .25rem;
+	padding: .5rem .75rem;
+	border-left: 2px solid #dcdcde;
+}
+
+.scvc-earlier__when {
+	margin: 0 0 .25rem;
+	font-size: .78rem;
+	font-weight: 600;
+	color: #646970;
+}
+
+.scvc-earlier__party {
+	font-weight: 400;
+}
+
+.scvc-earlier__party::before {
+	content: "\00b7";
+	margin: 0 .35rem;
+	opacity: .6;
+}
+
+.scvc-sources-intro {
+	max-width: 60ch;
+	margin-bottom: 1rem;
+}
+
+.scvc-sources-note {
+	margin-top: 1rem;
+	max-width: 60ch;
+}
+
+/* A bar makes the shape of the answer readable at a glance, which a column of
+   percentages does not. */
+.scvc-bar {
+	display: inline-block;
+	width: 60%;
+	max-width: 220px;
+	height: 8px;
+	margin-right: .5rem;
+	border-radius: 4px;
+	background: #f0f0f1;
+	overflow: hidden;
+	vertical-align: middle;
+}
+
+.scvc-bar__fill {
+	display: block;
+	height: 100%;
+	background: #2271b1;
+}
+
+.scvc-bar__label {
+	font-size: .82rem;
+	color: #646970;
+}
