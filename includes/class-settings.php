@@ -445,7 +445,7 @@ final class Settings {
 			'minimal' => [ 'accent' => '#111827', 'dark' => $root_primary ],
 		];
 
-		$theme = (string) get_option( 'sc_theme', 'light' );
+		$theme = (string) get_option( 'seedcast_theme', 'light' );
 
 		return $themes[ $theme ] ?? $themes['light'];
 	}

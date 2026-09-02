@@ -55,7 +55,7 @@ class Handler {
 	 * The nonce has already been verified by the engine before this runs.
 	 *
 	 * @param array $payload Payload so far.
-	 * @param array $post    Raw posted values.
+	 * @param array $post    Posted values, already unslashed and sanitized by the engine.
 	 * @return array|\WP_Error
 	 */
 	public function parse_payload( $payload, $post ) {
@@ -66,9 +66,9 @@ class Handler {
 			);
 		}
 
-		$name  = isset( $post['sc_author_name'] ) ? sanitize_text_field( wp_unslash( $post['sc_author_name'] ) ) : '';
-		$email = isset( $post['sc_author_email'] ) ? sanitize_email( wp_unslash( $post['sc_author_email'] ) ) : '';
-		$phone = isset( $post['scvc_phone'] ) ? sanitize_text_field( wp_unslash( $post['scvc_phone'] ) ) : '';
+		$name  = isset( $post['seedcast_author_name'] ) ? sanitize_text_field( $post['seedcast_author_name'] ) : '';
+		$email = isset( $post['seedcast_author_email'] ) ? sanitize_email( $post['seedcast_author_email'] ) : '';
+		$phone = isset( $post['scvc_phone'] ) ? sanitize_text_field( $post['scvc_phone'] ) : '';
 
 		if ( Settings::uses( 'name' ) && '' === trim( $name ) ) {
 			return new \WP_Error(
@@ -115,7 +115,7 @@ class Handler {
 		 * and a value that was never on the card should not end up in the
 		 * church's records or in a notification email.
 		 */
-		$status = isset( $post['scvc_status'] ) ? sanitize_key( wp_unslash( $post['scvc_status'] ) ) : '';
+		$status = isset( $post['scvc_status'] ) ? sanitize_key( $post['scvc_status'] ) : '';
 		if ( '' !== $status && ! array_key_exists( $status, Settings::statuses() ) ) {
 			$status = '';
 		}
@@ -123,7 +123,7 @@ class Handler {
 		$interests = [];
 		if ( isset( $post['scvc_interests'] ) && is_array( $post['scvc_interests'] ) ) {
 			$offered = Settings::interests();
-			foreach ( wp_unslash( $post['scvc_interests'] ) as $choice ) {
+			foreach ( (array) $post['scvc_interests'] as $choice ) {
 				$choice = sanitize_key( $choice );
 				if ( array_key_exists( $choice, $offered ) ) {
 					$interests[] = $choice;
@@ -135,8 +135,8 @@ class Handler {
 		return [
 			'phone'     => $phone,
 			'party'     => $party,
-			'heard'     => isset( $post['scvc_heard'] ) ? sanitize_text_field( wp_unslash( $post['scvc_heard'] ) ) : '',
-			'message'   => isset( $post['scvc_message'] ) ? sanitize_textarea_field( wp_unslash( $post['scvc_message'] ) ) : '',
+			'heard'     => isset( $post['scvc_heard'] ) ? sanitize_text_field( $post['scvc_heard'] ) : '',
+			'message'   => isset( $post['scvc_message'] ) ? sanitize_textarea_field( $post['scvc_message'] ) : '',
 			'status'    => $status,
 			'interests' => $interests,
 		];
@@ -152,11 +152,11 @@ class Handler {
 	 * is not moderated and nobody is waiting for approval.
 	 *
 	 * @param array $payload Default response.
-	 * @param array $post    Posted values.
+	 * @param array $post    Posted values, already unslashed and sanitized by the engine.
 	 * @return array
 	 */
 	public function response( $payload, $post ) {
-		$name = isset( $post['sc_author_name'] ) ? sanitize_text_field( wp_unslash( $post['sc_author_name'] ) ) : '';
+		$name = isset( $post['seedcast_author_name'] ) ? sanitize_text_field( $post['seedcast_author_name'] ) : '';
 
 		$payload['message'] = Settings::tokens( Settings::confirmation(), $name );
 		$payload['replace'] = Card::render( [ 'confirmed' => $name ] );

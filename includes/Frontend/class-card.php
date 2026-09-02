@@ -501,7 +501,7 @@ class Card {
 
 		if ( $wants( 'name' ) ) {
 			self::text_row(
-				'sc_author_name',
+				'seedcast_author_name',
 				__( 'Your name', 'seedcast-visitor-card' ),
 				'text',
 				true,
@@ -512,7 +512,7 @@ class Card {
 
 		if ( $wants( 'email' ) ) {
 			self::text_row(
-				'sc_author_email',
+				'seedcast_author_email',
 				__( 'Email', 'seedcast-visitor-card' ),
 				'email',
 				// Required only when there is no phone field to fall back on.

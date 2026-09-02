@@ -193,9 +193,9 @@
 			var target = null;
 
 			if ( 'name' === field ) {
-				target = el.querySelector( '#sc_author_name' );
+				target = el.querySelector( '#seedcast_author_name' );
 			} else if ( 'email' === field ) {
-				target = el.querySelector( '#sc_author_email' );
+				target = el.querySelector( '#seedcast_author_email' );
 			} else if ( 'status' === field ) {
 				target = el.querySelector( '.scvc-choices [name="scvc_status"]' );
 			} else if ( 'interests' === field ) {

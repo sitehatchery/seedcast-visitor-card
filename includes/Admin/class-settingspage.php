@@ -329,7 +329,7 @@ class SettingsPage {
 				<?php esc_html_e( 'The email a visitor receives is mostly your address, your service times and a directions link, so it will be thin until they are set.', 'seedcast-visitor-card' ); ?>
 			</p>
 			<p>
-				<a href="<?php echo esc_url( admin_url( \Seedcast\Core\Admin\Settings::menu_link( 'sc_church' ) ) ); ?>">
+				<a href="<?php echo esc_url( admin_url( \Seedcast\Core\Admin\Settings::menu_link( 'seedcast_church' ) ) ); ?>">
 					<?php esc_html_e( 'Fill them in', 'seedcast-visitor-card' ); ?>
 				</a>
 			</p>

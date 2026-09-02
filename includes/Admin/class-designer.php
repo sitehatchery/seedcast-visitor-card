@@ -270,7 +270,7 @@ class Designer {
 											printf(
 												/* translators: %s: link to the shared appearance settings. */
 												esc_html__( 'Uses the theme set under %s, so the card changes with everything else rather than needing to be kept in step.', 'seedcast-visitor-card' ),
-												'<a href="' . esc_url( admin_url( \Seedcast\Core\Admin\Settings::menu_link( 'sc_appearance' ) ) ) . '">'
+												'<a href="' . esc_url( admin_url( \Seedcast\Core\Admin\Settings::menu_link( 'seedcast_appearance' ) ) ) . '">'
 													. esc_html__( 'Seedcast, Appearance', 'seedcast-visitor-card' ) . '</a>'
 											);
 											?>
@@ -472,7 +472,7 @@ class Designer {
 											printf(
 												/* translators: %s: link to the shared church settings. */
 												esc_html__( 'Taken from your %s, so a change to your service time follows here without editing anything.', 'seedcast-visitor-card' ),
-												'<a href="' . esc_url( admin_url( \Seedcast\Core\Admin\Settings::menu_link( 'sc_church' ) ) ) . '">'
+												'<a href="' . esc_url( admin_url( \Seedcast\Core\Admin\Settings::menu_link( 'seedcast_church' ) ) ) . '">'
 													. esc_html__( 'church details', 'seedcast-visitor-card' ) . '</a>'
 											);
 											?>
