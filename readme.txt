@@ -3,7 +3,7 @@ Contributors: seedcast
 Tags: church, visitors, form, contact, welcome
 Requires at least: 6.2
 Tested up to: 7.1
-Stable tag: 1.17.0
+Stable tag: 1.20.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -125,6 +125,12 @@ Set your service day in the shared church settings and everything follows, inclu
 5. Settings
 
 == Changelog ==
+
+= 1.20.0 =
+* Every setting the shared Seedcast library stores was renamed to a longer, more distinctive prefix, so it cannot collide with another plugin that happened to choose the same short one. Your church details, service times, theme and spam settings are carried across automatically the first time the plugin loads; nothing needs re-entering.
+* Submitted cards are cleaned once, in a single place, before the card is read. A name or message containing a backslash is no longer damaged on its way into the database.
+* Internal tidying so the plugin passes WordPress's own Plugin Check cleanly: the CSV export writes through standard output, and two database queries carry a note explaining why their prepared values cannot be counted automatically.
+* The card's form fields and icons are escaped against an allow list when they appear in another plugin's page, such as a service page sidebar. The form itself is unchanged.
 
 = 1.17.0 =
 * Your city, state and postcode are now their own fields under Settings, Seedcast, Church. Existing addresses are untouched and still read as they did.
@@ -259,6 +265,10 @@ Set your service day in the shared church settings and everything follows, inclu
 * First release.
 
 == Upgrade Notice ==
+
+= 1.20.0 =
+
+Settings stored by the shared Seedcast library move to a new, longer prefix. They are carried across for you on the first page load after upgrading, so nothing needs re-entering. Includes input handling improvements.
 
 = 1.17.0 =
 

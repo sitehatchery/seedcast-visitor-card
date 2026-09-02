@@ -54,7 +54,7 @@ class Export {
 
 		// Byte order mark, so Excel opens a UTF-8 file with accented names in
 		// it correctly instead of mangling them.
-		fwrite( $out, "\xEF\xBB\xBF" );
+		echo "\xEF\xBB\xBF";
 
 		fputcsv( $out, [
 			__( 'Date', 'seedcast-visitor-card' ),
@@ -86,7 +86,6 @@ class Export {
 			] );
 		}
 
-		fclose( $out );
 		exit;
 	}
 

@@ -88,6 +88,7 @@ class Submissions {
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 			$wpdb->query(
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- prepare() takes a single array of replacements; the sniff counts arguments statically and cannot see inside it, so it reads one where there are several.
 				$wpdb->prepare(
 					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- placeholders built from a count; values passed separately.
 					"UPDATE %i SET status = %s WHERE source = %s AND type = %s AND id IN ( {$placeholders} )",
@@ -942,6 +943,7 @@ class Submissions {
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->query(
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- prepare() takes a single array of replacements; the sniff counts arguments statically and cannot see inside it, so it reads one where there are several.
 				$wpdb->prepare(
 					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- placeholders built from a count, values passed separately.
 					"DELETE FROM %i WHERE source = %s AND type = %s AND id IN ( {$placeholders} )",

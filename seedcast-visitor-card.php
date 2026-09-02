@@ -3,7 +3,7 @@
  * Plugin Name: Visitor Card
  * Plugin URI:  https://seedcast.ai/visitor-card
  * Description: A visitor card for your church website. Someone thinking about coming can say so, and you will know they are coming.
- * Version:     1.19.0
+ * Version:     1.20.0
  * Author:      Seedcast
  * Author URI:  https://seedcast.ai
  * License:     GPLv2 or later
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SCVC_VERSION',          '1.19.0' );
+define( 'SCVC_VERSION',          '1.20.0' );
 define( 'SCVC_PLUGIN_FILE',      __FILE__ );
 define( 'SCVC_PLUGIN_DIR',       plugin_dir_path( __FILE__ ) );
 define( 'SCVC_PLUGIN_URL',       plugin_dir_url( __FILE__ ) );
@@ -30,7 +30,7 @@ define( 'SCVC_PLUGIN_URL',       plugin_dir_url( __FILE__ ) );
  * highest version present is the one that runs, so a site with several of them
  * installed uses one library rather than one per plugin.
  */
-define( 'SCVC_CORE_VERSION',     '1.26.1' );
+define( 'SCVC_CORE_VERSION',     '1.26.2' );
 define( 'SCVC_CORE_MIN_VERSION', '1.21.0' );
 
 require_once SCVC_PLUGIN_DIR . 'lib/seedcast-core/loader.php';
