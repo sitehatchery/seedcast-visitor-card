@@ -230,7 +230,7 @@
    filled it in. */
 /* Somebody has just told their church they are coming. That deserves to look
    like good news rather than like a system notice, so it takes the accent
-   rather than the grey a neutral message would get. */
+   rather than the gray a neutral message would get. */
 .scvc-card__confirmed {
   margin: 0;
   padding: 1.15rem 1.25rem;
