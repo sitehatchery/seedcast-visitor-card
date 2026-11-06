@@ -30,7 +30,7 @@ define( 'SCVC_PLUGIN_URL',       plugin_dir_url( __FILE__ ) );
  * highest version present is the one that runs, so a site with several of them
  * installed uses one library rather than one per plugin.
  */
-define( 'SCVC_CORE_VERSION',     '1.27.0' );
+define( 'SCVC_CORE_VERSION',     '1.29.0' );
 define( 'SCVC_CORE_MIN_VERSION', '1.21.0' );
 
 require_once SCVC_PLUGIN_DIR . 'lib/seedcast-core/loader.php';
